@@ -1,0 +1,281 @@
+[
+    {
+        "website": "https://thanhnien.vn/",
+        "type_object":4,
+        "crawl_link_cate":{
+            "url":"https://thanhnien.vn/",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_link_cate":{
+                "type_result":2,
+                "type_find":1,
+                "type_output":2,
+                "xpath":"//*[@class= 'site-header__menu']/li[position() > 1]/a/@href"
+            }
+        },
+        "crawl_page":{
+            "url":"link_cate",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_comment":{
+                "type_result":1,
+                "type_find":1,
+                "type_output":1,
+                "xpath":"//*[@class = 'icon-bubble']/parent::*"
+            },
+            "detect_link":{
+                "type_result":2,
+                "type_find":2,
+                "type_output":4,
+                "xpath":"./@href",
+                "re":"(https:\\S+\\d+.html)"
+            }
+        },
+        "crawl_detail":{
+            "url":"api",
+            "type_crawl":1,
+            "type_response":2,
+            "detect_comment":{
+                "key":"total_comment",
+                "type_result":5,
+                "type_find":1,
+                "type_output":5
+            },
+            "api": {
+                "type_api":1,
+                "url": "https://thanhnien.vn/api/comments/get/by-obj?object_type=20&object_id=param_0",
+                "params": [
+                    {
+                        "type_replace": 1,
+                        "old_val":"param_0",
+                        "new_val":"id_post"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "website": "https://vnexpress.net",
+        "type_object":4,
+        "crawl_link_cate":{
+            "url":"https://vnexpress.net",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_link_cate":{
+                "type_result":2,
+                "type_find":1,
+                "type_output":2,
+                "xpath":"//*[@class = 'parent']/li[@data-id]/a/@href"
+            }
+        },
+        "crawl_page":{
+            "url":"link_cate",
+            "type_crawl":2,
+            "type_response":3,
+            "detect_comment":{
+                "type_result":1,
+                "type_find":1,
+                "type_output":1,
+                "xpath":"//*[contains(@class, 'widget-comment')]"
+            },
+            "detect_link":{
+                "type_result":2,
+                "type_find":2,
+                "type_output":4,
+                "xpath":"./@href",
+                "re":"(https:\\S+\\d+.html)"
+            }
+        },
+        "crawl_detail":{
+            "url":"api",
+            "type_crawl":1,
+            "type_response":2,
+            "detect_comment":{
+                "key":"totalitem",
+                "type_result":5,
+                "type_find":1,
+                "type_output":5
+            },
+            "api": {
+                "type_api":1,
+                "url": "https://usi-saas.vnexpress.net/index/get?objectid=param_0&objecttype=param_1&siteid=1000000",
+                "params": [
+                    {
+                        "type_replace": 1,
+                        "old_val":"param_0",
+                        "new_val":"id_post"
+                    },
+                    {
+                        "type_replace":2,
+                        "old_val":"param_1",
+                        "new_val":[
+                            "1",
+                            "3",
+                            "4",
+                            "9",
+                            "5"
+                        ]
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "type_crawl": 2,
+        "website": "https://tuoitre.vn/",
+        "type_object":4,
+        "crawl_link_cate":{
+            "url":"https://tuoitre.vn/",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_link_cate":{
+                "type_result":2,
+                "type_find":1,
+                "type_output":2,
+                "xpath":"//*[@class = \"menu-category\"]//a/@href"            }
+        },
+        "crawl_page":{
+            "url":"link_cate",
+            "type_crawl":2,
+            "type_response":3,
+            "detect_comment":{
+                "type_result":1,
+                "type_find":1,
+                "type_output":1,
+                "xpath":"//*[@class = 'stt']"
+            },
+            "detect_link":{
+                "type_result":2,
+                "type_find":2,
+                "type_output":4,
+                "xpath":"./@href",
+                "re":"(/\\S+\\d+.htm)"
+            }
+        },
+        "crawl_detail":{
+            "url":"api",
+            "type_crawl":1,
+            "type_response":2,
+            "detect_comment":{
+                "key":"comment_count",
+                "type_result":5,
+                "type_find":1,
+                "type_output":5
+            },
+            "api": {
+                "type_api":2,
+                "url": "https://id.tuoitre.vn/api/getcount-comment.api",
+                "data":{"ids":"param_0"},
+                "params": [
+                    {
+                        "type_replace": 1,
+                        "old_val":"param_0",
+                        "new_val":"id_post"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "type_crawl": 2,
+        "website": "https://vietnamnet.vn/",
+        "type_object":4,
+        "crawl_link_cate":{
+            "url":"https://vietnamnet.vn/",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_link_cate":{
+                "type_result":2,
+                "type_find":1,
+                "type_output":2,
+                "xpath":"//*[@class = 'menu datautm-menu']/li[position() > 1]/a/@href"            
+            }
+        },
+        "crawl_page":{
+            "url":"link_cate",
+            "type_crawl":2,
+            "type_response":3,
+            "detect_comment":{
+                "type_result":1,
+                "type_find":1,
+                "type_output":1,
+                "xpath":"//*[contains(@class, 'box-icon-comment')]"
+            },
+            "detect_link":{
+                "type_result":2,
+                "type_find":2,
+                "type_output":4,
+                "xpath":"./@href",
+                "re":"(/\\S+\\d+.html)"
+            }
+        },
+        "crawl_detail":{
+            "url":"api",
+            "type_crawl":1,
+            "type_response":2,
+            "detect_comment":{
+                "key":"totalComment",
+                "type_result":5,
+                "type_find":1,
+                "type_output":5
+            },
+            "api": {
+                "type_api":1,
+                "url": "https://comment.vietnamnet.vn/api/Comment/Gets?objectId=param_0&websiteId=000003",
+                "params": [
+                    {
+                        "type_replace": 1,
+                        "old_val":"param_0",
+                        "new_val":"id_post"
+                    }
+                ]
+            }
+        }
+    },
+    {
+        "type_crawl": 1,
+        "website": "https://linkhay.com/link/stream/hot",
+        "type_object":4,
+        "crawl_link_cate":{
+            "url":"https://linkhay.com/link/stream/hot",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_link_cate":{
+                "type_result":2,
+                "type_find":1,
+                "type_output":2,
+                "xpath":"//*[@class = 'tab']/@href"
+            }
+        },
+        "crawl_page":{
+            "url":"link_cate",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_comment":{
+                "type_result":1,
+                "type_find":1,
+                "type_output":1,
+                "xpath":"//*[@class = 'comments']"
+            },
+            "detect_link":{
+                "type_result":2,
+                "type_find":2,
+                "type_output":4,
+                "xpath":"./@href",
+                "re":"(https://linkhay.com/link/\\d+\\S+\\w)"
+            }
+        },
+        "crawl_detail":{
+            "url":"link_post",
+            "type_crawl":1,
+            "type_response":1,
+            "detect_comment":{
+                "type_result":4,
+                "type_find":2,
+                "type_output":5,
+                "xpath":"//*[contains(@class, 'comments')]/*[@class = 'tile']/*/text()",
+                "re":"(\\d+)"
+            }
+        }
+    }
+]
