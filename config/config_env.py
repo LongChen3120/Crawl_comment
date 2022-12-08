@@ -12,4 +12,6 @@ PATH_CONFIG = "./config/config_v2.json"
 TYPE_OBJECT = 4
 HEADER = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36'}
 TIMEOUT = 10
+TIME_RUN_SCHEDULE = 30
+MAX_JOBS = 5
 
