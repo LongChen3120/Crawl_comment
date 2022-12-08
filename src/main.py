@@ -13,10 +13,11 @@ import config_env
 
 import threading
 from apscheduler.schedulers.blocking import BlockingScheduler
+from logging.handlers import TimedRotatingFileHandler
 
 
 def crawl_handler():
-    # hàm xử lý crawl: chạy crawl page và 
+    # hàm xử lý crawl: chạy crawl page và crawl detail
     list_doc_new = []
     col_temp_db = mongo_handler.connect_temp_collection()
     col_toppaper = mongo_handler.connect_toppaper()
@@ -51,12 +52,15 @@ def run_scheduler():
 
 
 def set_log():
-    logging.basicConfig(
-        filename=config_env.PATH_LOG,
-        format='%(asctime)s - %(levelname)s - %(message)s', 
-        level=logging.INFO,
-        filemode='w'
-    )
+    rootlogger = logging.getLogger()
+    rootlogger.setLevel(logging.DEBUG)
+    file_log = TimedRotatingFileHandler(config_env.PATH_LOG,
+                                       when="h",
+                                       interval=1,
+                                       backupCount=5)
+    file_log.setLevel(logging.INFO)
+    file_log.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    rootlogger.addHandler(file_log)
 
 
 def read_config():
@@ -67,5 +71,5 @@ def read_config():
 if __name__ == '__main__':
     set_log()
     mongo_handler.update_config()
-    # crawl_comment.crawl_page()
+    crawl_comment.crawl_page()
     crawl_handler()
