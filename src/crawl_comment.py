@@ -62,12 +62,13 @@ def crawl_page():
 
             if len(list_data) > 0:
                 list_data = check_replace_data(list_data)
+                mongo_handler.insert_col(col_toppaper, check_comment_gt_zero(list_data))
                 list_data_old, list_data_new = check_data_in_DB(col_temp_db, list_data)
                 if len(list_data_old) > 0:
                     mongo_handler.update_col(col_temp_db, list_data_old)
                 if len(list_data_new) > 0:
                     mongo_handler.insert_col(col_temp_db, list_data_new)
-                    mongo_handler.insert_col(col_toppaper, list_data_new)
+                    
             else:
                 logging.info(f"Not found data, url: {link_cate}")
 
@@ -528,6 +529,16 @@ def check_data_in_DB(col, list_data):
         else:
             list_link_new.append(doc)
     return list_link_old, list_link_new
+
+
+def check_comment_gt_zero(list_data):
+    # hàm kiểm tra comment > 0
+    for doc in list_data.copy():
+        if doc['comment'] > 0:
+            pass
+        else:
+            list_data.remove(doc)
+    return list_data
 
 
 def make_full_link(domain, list_link):

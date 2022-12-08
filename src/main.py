@@ -29,7 +29,7 @@ def crawl_handler():
         list_doc_check_detail = mongo_handler.get_doc_today(col_temp_db, time_crawl_page)
         for doc in list_doc_check_detail:
             comment = crawl_comment.crawl_detail(doc['url'])
-            if comment != False and comment > 0:
+            if comment != False:
                 del doc['_id']
                 doc['comment'] = comment
                 doc['last_check'] = datetime.datetime.now()
@@ -37,7 +37,7 @@ def crawl_handler():
             else:
                 pass
         if len(list_doc_new) > 0:
-            mongo_handler.insert_col(col_toppaper, list_doc_new)
+            mongo_handler.insert_col(col_toppaper, crawl_comment.check_comment_gt_zero(list_doc_new))
             logging.info(f"insert in toppaper successfull !")
 
 
@@ -70,6 +70,6 @@ def read_config():
 
 if __name__ == '__main__':
     set_log()
-    mongo_handler.update_config()
+    # mongo_handler.update_config()
     crawl_comment.crawl_page()
-    crawl_handler()
+    # crawl_handler()
