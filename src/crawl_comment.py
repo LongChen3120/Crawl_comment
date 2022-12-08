@@ -4,7 +4,7 @@ import json
 import time
 import logging
 import datetime
-sys.path.insert(0, '.\config')
+# sys.path.insert(0, '.\config')
 
 import requests
 

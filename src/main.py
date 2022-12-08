@@ -1,11 +1,8 @@
-import os
 import sys
 import time
-import queue
 import datetime
 import logging
-import asyncio
-sys.path.insert(0, '.\config')
+sys.path.insert(0, '..\config')
 
 import mongo_handler
 import crawl_comment
