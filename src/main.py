@@ -43,8 +43,6 @@ def crawl_handler():
 
 def run_scheduler():
     scheduler = BackgroundScheduler()
-    print(config_env.TIME_RUN_SCHEDULE)
-    print(config_env.MAX_JOBS)
     scheduler.add_job(crawl_handler, 'interval', minutes=config_env.TIME_RUN_SCHEDULE, max_instances=config_env.MAX_JOBS)
     scheduler.start()
     while True:
@@ -70,7 +68,6 @@ def read_config():
 
 if __name__ == '__main__':
     set_log()
-    
-    crawl_comment.crawl_page()
     mongo_handler.update_config()
+    crawl_comment.crawl_page()
     run_scheduler()
