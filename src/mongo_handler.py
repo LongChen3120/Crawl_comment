@@ -50,7 +50,7 @@ def get_all_doc(col):
 def get_doc_today(col_temp_data, time_crawl_page):
     # tìm kiếm docs crawl chưa quá 24h trong temp_data
     # time_crawl_page: thời điểm bắt đầu crawl page, giúp lấy những docs trước khi crawl page
-    return col_temp_data.find({"type" : config_env.TYPE_OBJECT, "type_doc":1, "last_check": {"$lt": time_crawl_page}}).limit(50)
+    return col_temp_data.find({"type" : config_env.TYPE_OBJECT, "type_doc":1, "last_check": {"$lt": time_crawl_page}})
 
 
 def insert_col(col, list_data):
