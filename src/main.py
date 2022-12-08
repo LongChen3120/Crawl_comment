@@ -46,11 +46,9 @@ def run_scheduler():
     print(config_env.TIME_RUN_SCHEDULE)
     print(config_env.MAX_JOBS)
     scheduler.add_job(crawl_handler, 'interval', minutes=config_env.TIME_RUN_SCHEDULE, max_instances=config_env.MAX_JOBS)
-    try:
-        scheduler.start()
-    except (KeyboardInterrupt, SystemExit):
-        logging.info("Exiting...")
-        sys.exit(0)
+    scheduler.start()
+    while True:
+        time.sleep(3600)
 
 
 def set_log():
@@ -72,6 +70,7 @@ def read_config():
 
 if __name__ == '__main__':
     set_log()
-    mongo_handler.update_config()
+    
     crawl_comment.crawl_page()
+    mongo_handler.update_config()
     run_scheduler()
