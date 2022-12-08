@@ -61,9 +61,12 @@ def crawl_page():
                     list_data = extract_comment_from_browser(response, web_config['website'], web_config['type_object'], link_cate, config_crawl_page)
 
             if len(list_data) > 0:
+                print("truoc check replace", len(list_data))
                 list_data = check_replace_data(list_data)
+                print("sau check replace", len(list_data))
                 mongo_handler.insert_col(col_toppaper, check_comment_gt_zero(list_data))
-                list_data_old, list_data_new = check_data_in_DB(col_temp_db, list_data)
+                list_data_old, list_data_new = check_data_in_DB(col_temp_db, list_data.copy())
+                print(len(list_data_old), len(list_data_new))
                 if len(list_data_old) > 0:
                     mongo_handler.update_col(col_temp_db, list_data_old)
                 if len(list_data_new) > 0:
