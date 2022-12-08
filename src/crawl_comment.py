@@ -64,8 +64,8 @@ def crawl_page():
                 print("truoc check replace", len(list_data))
                 list_data = check_replace_data(list_data)
                 print("sau check replace", len(list_data))
-                mongo_handler.insert_col(col_toppaper, check_comment_gt_zero(list_data))
-                list_data_old, list_data_new = check_data_in_DB(col_temp_db, list_data.copy())
+                mongo_handler.insert_col(col_toppaper, check_comment_gt_zero(list_data.copy()))
+                list_data_old, list_data_new = check_data_in_DB(col_temp_db, list_data)
                 print(len(list_data_old), len(list_data_new))
                 if len(list_data_old) > 0:
                     mongo_handler.update_col(col_temp_db, list_data_old)
