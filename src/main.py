@@ -12,7 +12,7 @@ import crawl_comment
 import config_env
 
 import threading
-from apscheduler.schedulers.blocking import BlockingScheduler
+from apscheduler.schedulers.background import BackgroundScheduler
 from logging.handlers import TimedRotatingFileHandler
 
 
@@ -42,7 +42,9 @@ def crawl_handler():
 
 
 def run_scheduler():
-    scheduler = BlockingScheduler()
+    scheduler = BackgroundScheduler()
+    print(config_env.TIME_RUN_SCHEDULE)
+    print(config_env.MAX_JOBS)
     scheduler.add_job(crawl_handler, 'interval', minutes=config_env.TIME_RUN_SCHEDULE, max_instances=config_env.MAX_JOBS)
     try:
         scheduler.start()
@@ -70,6 +72,6 @@ def read_config():
 
 if __name__ == '__main__':
     set_log()
-    # mongo_handler.update_config()
+    mongo_handler.update_config()
     crawl_comment.crawl_page()
-    # crawl_handler()
+    run_scheduler()
