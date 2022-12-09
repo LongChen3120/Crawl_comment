@@ -75,6 +75,6 @@ if __name__ == '__main__':
     log_main = logging.getLogger(config_env.NAME_LOG_1)
     log_ram = logging.getLogger(config_env.NAME_LOG_2)
 
-    # mongo_handler.update_config()
+    mongo_handler.update_config()
     crawl_comment.crawl_page()
-    # run_scheduler()
+    run_scheduler()
