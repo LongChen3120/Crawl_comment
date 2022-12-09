@@ -1,2 +1,22 @@
-2022-12-08 10:41:18,357 - INFO - config updated !
-2022-12-08 10:41:19,998 - INFO - insert in toppaper successfull !
+2022-12-09 09:33:10,967 - INFO - Running job "crawl_handler (trigger: interval[0:30:00], next run at: 2022-12-09 10:03:10 +07)" (scheduled at 2022-12-09 09:33:10.915185+07:00)
+2022-12-09 09:33:11,192 - INFO - Start crawl url: https://thanhnien.vn/video/
+2022-12-09 09:33:11,530 - INFO - Start crawl url: https://thanhnien.vn/thoi-su/
+2022-12-09 09:33:11,870 - INFO - Start crawl url: https://thanhnien.vn/the-gioi/
+2022-12-09 09:33:12,275 - INFO - Start crawl url: https://thanhnien.vn/tai-chinh-kinh-doanh/
+2022-12-09 09:33:12,697 - INFO - Start crawl url: https://thanhnien.vn/doi-song/
+2022-12-09 09:33:13,074 - INFO - Start crawl url: https://thanhnien.vn/du-lich/
+2022-12-09 09:33:13,299 - INFO - Start crawl url: https://thanhnien.vn/van-hoa/
+2022-12-09 09:33:13,624 - INFO - Start crawl url: https://thanhnien.vn/giai-tri/
+2022-12-09 09:33:13,965 - INFO - Start crawl url: https://thanhnien.vn/gioi-tre/
+2022-12-09 09:33:14,311 - INFO - Start crawl url: https://thanhnien.vn/giao-duc/
+2022-12-09 09:33:14,682 - INFO - Start crawl url: https://thanhnien.vn/the-thao/
+2022-12-09 09:33:14,965 - INFO - Start crawl url: https://thanhnien.vn/suc-khoe/
+2022-12-09 09:33:15,282 - INFO - Start crawl url: https://thanhnien.vn/cong-nghe-game/
+2022-12-09 09:33:15,436 - INFO - Start crawl url: https://thanhnien.vn/xe/
+2022-12-09 09:33:15,733 - INFO - Start crawl url: https://thoitrangtre.thanhnien.vn
+2022-12-09 09:33:16,097 - INFO - Not found data, url: https://thoitrangtre.thanhnien.vn
+2022-12-09 09:33:16,097 - INFO - Start crawl url: https://thanhnien.vn/
+2022-12-09 09:33:16,776 - INFO - Start crawl url: https://vnexpress.net/thoi-su
+2022-12-09 09:33:29,240 - INFO - Start crawl url: https://vnexpress.net/goc-nhin
+2022-12-09 09:33:33,661 - INFO - Start crawl url: https://vnexpress.net/the-gioi
+2022-12-09 09:33:45,709 - INFO - Start crawl url: https://video.vnexpress.net
