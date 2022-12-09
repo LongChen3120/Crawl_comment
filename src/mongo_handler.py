@@ -71,13 +71,6 @@ def update_col(col, list_doc):
 
 
 def update_type_doc(col, list_doc):
-    # for doc in list_doc:
-    #     filter = {"url": doc['url']}
-    #     vals = {"$set":doc}
-    #     try:
-    #         col.update_many(filter, vals)
-    #     except:
-    #         pass
     list_doc_update = []
     list_doc_over_time = []
     list_del = []

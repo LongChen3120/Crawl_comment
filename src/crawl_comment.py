@@ -1,3 +1,4 @@
+import os
 import re
 import sys
 import json
@@ -6,6 +7,7 @@ import logging
 import datetime
 sys.path.insert(0, '.\config')
 
+import psutil
 import requests
 
 import config_env
@@ -15,6 +17,10 @@ from lxml import html
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+
+
+log_main = logging.getLogger(config_env.NAME_LOG_1)
+log_ram = logging.getLogger(config_env.NAME_LOG_2)
 
 
 def crawl_link_cate(domain, config):
@@ -28,7 +34,7 @@ def crawl_link_cate(domain, config):
         list_link_cate.append(domain)
         return make_full_link(domain, list_link_cate)
     except:
-        logging.warning("Exception: ", exc_info=True)
+        log_main.warning("Exception: ", exc_info=True)
         return False
 
 
@@ -45,7 +51,8 @@ def crawl_page():
         config_crawl_page = web_config['crawl_page']
         # lặp qua từng trang chỉ mục để cào comment của từng chỉ mục
         for link_cate in list_link_cate:
-            logging.info(f"Start crawl url: {link_cate}")
+            log_main.info(f"Start crawl url: {link_cate}")
+            log_ram.warning(f"Start crawl: == RAM USE: {get_ram()} MB ==\turl: {link_cate}")
             type_crawl = config_crawl_page['type_crawl']
             browser = detect_type_crawl(config_crawl_page, link_cate)
             if browser == False:
@@ -70,7 +77,8 @@ def crawl_page():
                     mongo_handler.insert_col(col_temp_db, list_data_new)
                     
             else:
-                logging.info(f"Not found data, url: {link_cate}")
+                log_main.info(f"Not found data, url: {link_cate}")
+            log_ram.warning(f"End crawl: == RAM USE: {get_ram()} MB ==\t")
 
 
 def crawl_detail(url):
@@ -79,7 +87,7 @@ def crawl_detail(url):
     # trả về comment của url đó
     config = check_config(url)  # check config của một url
     if not config:
-        logging.warning(f"Not found config, url: {url}")
+        log_main.warning(f"Not found config, url: {url}")
         return False
     else:
         config_crawl_detail = config['crawl_detail']
@@ -89,7 +97,7 @@ def crawl_detail(url):
             id_post = get_id_post(url)
             comment = detect_type_api(id_post, config_crawl_detail)
             if comment == False:
-                logging.warning(f"not found comment in url: {url}")
+                log_main.warning(f"not found comment in url: {url}")
                 return False
             else:
                 return comment
@@ -100,7 +108,7 @@ def crawl_detail(url):
                 comment = html_find_xpath(response, config_crawl_detail['detect_comment'])
                 comment = detect_type_result(comment, config_crawl_detail['detect_comment'])
                 if comment == False:
-                    logging.warning(f"not found comment in url: {url}")
+                    log_main.warning(f"not found comment in url: {url}")
                     return False
                 else:
                     return comment
@@ -119,19 +127,19 @@ def detect_type_crawl(config, url):
             res = requests.get(url, headers=config_env.HEADER, timeout=config_env.TIMEOUT)
             return res
         except:
-            logging.error("Exception:", exc_info=True)
+            log_main.error("Exception:", exc_info=True)
             return False
     elif config['type_crawl'] == 2:
         try:
             options = Options()
-            options.add_experimental_option('excludeSwitches', ['enable-logging'])
+            options.add_experimental_option('excludeSwitches', ['enable-log_main'])
             options.headless = True
             browser = webdriver.Chrome(executable_path=config_env.PATH_CHROME_DRIVER, options=options)
             browser.implicitly_wait(config_env.TIMEOUT)
             browser.get(url)
             return browser
         except:
-            logging.error("Exception:", exc_info=True)
+            log_main.error("Exception:", exc_info=True)
             return False
 
 
@@ -144,14 +152,14 @@ def detect_type_response(response, config):
             _html = html.fromstring(response.text, 'lxml')
             return _html
         else:
-            logging.warning(f"res.status_code: {response.status_code}")
+            log_main.warning(f"res.status_code: {response.status_code}")
             return False
     elif config['type_response'] == 2:
         if response.status_code == 200:
             _json = response.json()
             return _json
         else:
-            logging.warning(f"res.status_code: {response.status_code}")
+            log_main.warning(f"res.status_code: {response.status_code}")
             return False
     elif config['type_response'] == 3:
         return response
@@ -213,7 +221,7 @@ def detect_type_api(id_post, config):
             comment = extract_comment_from_json(response, config)
             return comment
         except:
-            logging.error("Exception:", exc_info=True)
+            log_main.error("Exception:", exc_info=True)
             return False
         
 
@@ -253,7 +261,7 @@ def extract_comment_from_html(response, domain, type_obj, resourceUrl, config):
                 except:
                     pass
     else:
-        logging.warning(f"Not found comment in url: {resourceUrl}")
+        log_main.warning(f"Not found comment in url: {resourceUrl}")
     return list_data
 
 
@@ -295,7 +303,7 @@ def extract_comment_from_json(json_obj, config):
     try:
         return new_obj[config['detect_comment']['key']]
     except:
-        logging.warning(f"can't get comment from json obj: {json_obj}")
+        log_main.warning(f"can't get comment from json obj: {json_obj}")
         return False
     
 
@@ -486,7 +494,7 @@ def detect_time_format(time, config):
         elif params[0] == "hours":
             time = time.replace(hour=int(params[1]))
     except:
-        logging.warning("Exception: ", exc_info=True)
+        log_main.warning("Exception: ", exc_info=True)
     return time
 
 
@@ -569,6 +577,13 @@ def check_regex(regex, list_link):
     return list(set(list_result))
     
         
+def get_ram():
+    process_id = os.getpid()
+    process = psutil.Process(process_id)
+    # log_ram.warning(f"__Process id: {process_id}; Ram use: {int(process.memory_info().rss)/1024}")
+    return int(process.memory_info().rss)/1024
+
+
 def scroll_down(browser, param_scroll_down):
     if param_scroll_down == True:
         speed = 70

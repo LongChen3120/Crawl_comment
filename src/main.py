@@ -11,6 +11,7 @@ import mongo_handler
 import crawl_comment
 import config_env
 
+import psutil
 import threading
 from apscheduler.schedulers.background import BackgroundScheduler
 from logging.handlers import TimedRotatingFileHandler
@@ -18,6 +19,7 @@ from logging.handlers import TimedRotatingFileHandler
 
 def crawl_handler():
     # hàm xử lý crawl: chạy crawl page và crawl detail
+    log_ram.warning(f"Start run cheduler ===================== RAM USE: {crawl_comment.get_ram()} MB =====================")
     list_doc_new = []
     col_temp_db = mongo_handler.connect_temp_collection()
     col_toppaper = mongo_handler.connect_toppaper()
@@ -38,7 +40,7 @@ def crawl_handler():
                 pass
         if len(list_doc_new) > 0:
             mongo_handler.insert_col(col_toppaper, crawl_comment.check_comment_gt_zero(list_doc_new))
-            logging.info(f"insert in toppaper successfull !")
+            log_main.info(f"insert in toppaper successfull !")
 
 
 def run_scheduler():
@@ -49,16 +51,17 @@ def run_scheduler():
         time.sleep(3600)
 
 
-def set_log():
-    rootlogger = logging.getLogger()
+def set_log(logger_name, log_file):
+    rootlogger = logging.getLogger(logger_name)
     rootlogger.setLevel(logging.DEBUG)
-    file_log = TimedRotatingFileHandler(config_env.PATH_LOG,
+    timed_rotating = TimedRotatingFileHandler(log_file,
                                        when="h",
                                        interval=1,
-                                       backupCount=5)
-    file_log.setLevel(logging.INFO)
-    file_log.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
-    rootlogger.addHandler(file_log)
+                                       backupCount=5
+                                       )
+    timed_rotating.setLevel(logging.INFO)
+    timed_rotating.setFormatter(logging.Formatter('%(asctime)s - %(levelname)s - %(message)s'))
+    rootlogger.addHandler(timed_rotating)
 
 
 def read_config():
@@ -67,7 +70,11 @@ def read_config():
 
 
 if __name__ == '__main__':
-    set_log()
-    mongo_handler.update_config()
+    set_log(config_env.NAME_LOG_1, config_env.PATH_LOG_1)
+    set_log(config_env.NAME_LOG_2, config_env.PATH_LOG_2)
+    log_main = logging.getLogger(config_env.NAME_LOG_1)
+    log_ram = logging.getLogger(config_env.NAME_LOG_2)
+
+    # mongo_handler.update_config()
     crawl_comment.crawl_page()
-    run_scheduler()
+    # run_scheduler()
